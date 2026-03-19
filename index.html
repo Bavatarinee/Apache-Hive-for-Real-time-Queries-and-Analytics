@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apache Hive — Real-time Queries & Analytics</title>
+  <meta name="description" content="Interactive analytics dashboard showcasing Apache Hive real-time queries on e-commerce and IoT sensor data."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🐝</div>
+      <div class="logo-text"><span class="logo-hive">Hive</span><span class="logo-analytics">Analytics</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#overview"   class="nav-item active" data-section="overview">   <span class="nav-icon">📊</span><span>Overview</span></a>
+      <a href="#revenue"    class="nav-item"         data-section="revenue">   <span class="nav-icon">💰</span><span>Revenue</span></a>
+      <a href="#categories" class="nav-item"         data-section="categories"><span class="nav-icon">📦</span><span>Categories</span></a>
+      <a href="#geography"  class="nav-item"         data-section="geography"> <span class="nav-icon">🌍</span><span>Geography</span></a>
+      <a href="#customers"  class="nav-item"         data-section="customers"> <span class="nav-icon">👥</span><span>Customers</span></a>
+      <a href="#sensors"    class="nav-item"         data-section="sensors">   <span class="nav-icon">🌡️</span><span>IoT Sensors</span></a>
+      <a href="#queries"    class="nav-item"         data-section="queries">   <span class="nav-icon">🔍</span><span>HiveQL</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="live-dot"></div>
+      <span>Live Data Feed</span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <div class="breadcrumb" id="breadcrumb">Overview</div>
+      </div>
+      <div class="topbar-right">
+        <div class="filter-group">
+          <label>Year</label>
+          <select id="yearFilter"><option value="2024">2024</option></select>
+        </div>
+        <div class="last-updated">Updated: <span id="updateTime"></span></div>
+        <div class="status-badge">✅ Connected</div>
+      </div>
+    </header>
+
+    <div class="content" id="content">
+
+      <!-- ===== SECTION: OVERVIEW ===== -->
+      <section class="section active" id="section-overview">
+        <div class="section-header">
+          <h1>Real-time Analytics Overview</h1>
+          <p>Apache Hive on 50,000 transactions · 30,000 sensor events · 2,000 customers</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <!-- Charts row 1 -->
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header">
+              <h3>Monthly Revenue Trend</h3>
+              <span class="badge">Q1–Q4 2024</span>
+            </div>
+            <canvas id="monthlyChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Order Status</h3></div>
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Charts row 2 -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-header"><h3>Device Type</h3></div>
+            <canvas id="deviceChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Payment Methods</h3></div>
+            <canvas id="paymentChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Hourly Orders</h3></div>
+            <canvas id="hourlyChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION: REVENUE ===== -->
+      <section class="section" id="section-revenue">
+        <div class="section-header">
+          <h1>Revenue Deep Dive</h1>
+          <p>Quarterly growth, cumulative revenue and discount analysis</p>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Monthly Revenue &amp; Orders</h3><span class="badge">Dual Axis</span></div>
+            <canvas id="dualAxisChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Discount Impact</h3></div>
+            <canvas id="discountChart"></canvas>
+          </div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-header"><h3>Warehouse Revenue</h3></div>
+            <canvas id="warehouseRevChart"></canvas>
+          </div>
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Cumulative Revenue (Running Total)</h3></div>
+            <canvas id="cumulativeChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION: CATEGORIES ===== -->
+      <section class="section" id="section-categories">
+        <div class="section-header">
+          <h1>Category Performance</h1>
+          <p>Revenue, units sold and order volume by product category</p>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Revenue by Category</h3></div>
+            <canvas id="categoryBarChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Category Share</h3></div>
+            <canvas id="categoryPieChart"></canvas>
+          </div>
+        </div>
+        <div class="table-card">
+          <h3>Category Summary Table</h3>
+          <div class="table-wrap" id="categoryTable"></div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION: GEOGRAPHY ===== -->
+      <section class="section" id="section-geography">
+        <div class="section-header">
+          <h1>Geographic Analysis</h1>
+          <p>Revenue and orders by global region</p>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Revenue by Region</h3></div>
+            <canvas id="regionBarChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Region Share</h3></div>
+            <canvas id="regionPieChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION: CUSTOMERS ===== -->
+      <section class="section" id="section-customers">
+        <div class="section-header">
+          <h1>Customer Analytics</h1>
+          <p>Segments, loyalty and lifetime value</p>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-header"><h3>Revenue by Segment</h3></div>
+            <canvas id="segmentChart"></canvas>
+          </div>
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Orders by Segment per Month</h3></div>
+            <canvas id="segmentTrendChart"></canvas>
+          </div>
+        </div>
+        <div class="kpi-grid kpi-grid-sm" id="custKpis"></div>
+      </section>
+
+      <!-- ===== SECTION: IoT SENSORS ===== -->
+      <section class="section" id="section-sensors">
+        <div class="section-header">
+          <h1>IoT Sensor Monitoring</h1>
+          <p>Real-time warehouse sensor telemetry and alerts — Apache Hive streaming analytics</p>
+        </div>
+        <div class="kpi-grid" id="sensorKpis"></div>
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Sensor Alerts by Type</h3></div>
+            <canvas id="sensorAlertChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3>Alert Rate %</h3></div>
+            <canvas id="alertRateChart"></canvas>
+          </div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-header"><h3>Alerts by Warehouse &amp; Sensor Type</h3></div>
+            <canvas id="warehouseAlertChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SECTION: HIVEQL ===== -->
+      <section class="section" id="section-queries">
+        <div class="section-header">
+          <h1>HiveQL Query Reference</h1>
+          <p>Key queries powering this dashboard — click to expand</p>
+        </div>
+        <div class="query-list" id="queryList"></div>
+      </section>
+
+    </div><!-- /content -->
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
