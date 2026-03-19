@@ -34,7 +34,7 @@ Apache Hive for Real-time Queries and Analytics/
 │   └── app.js                    # Chart.js visualizations
 │
 ├── aggregate_data.py             # Aggregates CSV → analytics_data.json
-└── README.md
+
 ```
 
 ---
